@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React, { createContext, useContext } from 'react';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core';
 
 import Marketing from './components/MarketingApp';
@@ -7,15 +7,19 @@ import Header from './components/Header';
 
 const generateClassName = createGenerateClassName({ productionPrefix: 'co' });
 
-export default () => {
+const HistoryContext = createContext();
+
+export const useHistory = () => useContext(HistoryContext);
+
+export default ({ history }) => {
   return (
-    <BrowserRouter>
-      <StylesProvider generateClassName={generateClassName}>
-        <div>
+    <HistoryRouter history={history}>
+      <HistoryContext.Provider value={history}>
+        <StylesProvider generateClassName={generateClassName}>
           <Header />
           <Marketing />
-        </div>
-      </StylesProvider>
-    </BrowserRouter>
+        </StylesProvider>
+      </HistoryContext.Provider>
+    </HistoryRouter>
   );
 };
