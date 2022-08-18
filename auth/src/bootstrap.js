@@ -19,7 +19,7 @@ export const mount = (element, { onNavigate, defaultHistory, initialPath } = {})
 };
 
 if (process.env.NODE_ENV === 'development') {
-  const element = document.querySelector('#marketing-root-dev');
+  const element = document.querySelector('#auth-root-dev');
 
   if (element) mount(element, { defaultHistory: createBrowserHistory({ window }) });
 }

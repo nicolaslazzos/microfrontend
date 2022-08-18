@@ -5,24 +5,20 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const common = require('./webpack.common');
 const package = require('../package.json');
 
-const PORT = 8081;
-
 const config = {
-  mode: 'development',
+  mode: 'production',
   output: {
-    // add a path to look up for the js file
-    publicPath: `http://localhost:${PORT}/`
-  },
-  devServer: {
-    port: PORT,
-    historyApiFallback: true
+    // to avoid caching issues, we gave each file a unique name
+    filename: '[name].[contenthash].js',
+    // add a path to look for the upper file
+    publicPath: '/auth/latest/'
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'marketing',
+      name: 'auth',
       filename: 'remoteEntry.js',
       exposes: {
-        './MarketingApp': './src/bootstrap'
+        './AuthApp': './src/bootstrap'
       },
       shared: Object.keys(package.dependencies)
     })
