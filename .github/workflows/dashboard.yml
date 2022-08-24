@@ -1,4 +1,4 @@
-name: dashboard-auth
+name: deploy-dashboard
 
 on:
   push:
