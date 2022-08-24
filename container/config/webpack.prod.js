@@ -20,7 +20,7 @@ const config = {
       name: 'container',
       remotes: {
         marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
-        auth: `marketing@${domain}/auth/latest/remoteEntry.js`
+        auth: `auth@${domain}/auth/latest/remoteEntry.js`
       },
       shared: Object.keys(package.dependencies)
     })
