@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { mount } from 'auth/AuthApp';
 import { useHistory } from '../App';
 
-export default () => {
+export default ({ onSignIn }) => {
   const ref = useRef(null);
 
   const history = useHistory();
 
   useEffect(() => {
-    const { onParentNavigate } = mount(ref.current, { onNavigate, initialPath: history.location.pathname });
+    const { onParentNavigate } = mount(ref.current, { onNavigate, onSignIn, initialPath: history.location.pathname });
 
     history.listen(onParentNavigate);
   }, []);

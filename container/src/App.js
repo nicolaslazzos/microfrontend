@@ -1,4 +1,4 @@
-import React, { createContext, useContext, lazy, Suspense } from 'react';
+import React, { createContext, useContext, lazy, Suspense, useState, useEffect } from 'react';
 import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core';
 
@@ -15,14 +15,18 @@ const HistoryContext = createContext();
 export const useHistory = () => useContext(HistoryContext);
 
 export default ({ history }) => {
+  const [isSignedIn, setIsSignedIn] = useState(localStorage.getItem('isSignedIn') === 'true');
+
+  useEffect(() => { localStorage.setItem('isSignedIn', isSignedIn); }, [isSignedIn]);
+
   return (
     <HistoryRouter history={history}>
       <HistoryContext.Provider value={history}>
         <StylesProvider generateClassName={generateClassName}>
-          <Header />
+          <Header isSignedIn={isSignedIn} onSignOut={() => setIsSignedIn(false)} />
           <Suspense fallback={<Progress />}>
             <Routes>
-              <Route path="/auth/*" element={<LazyAuth />} />
+              <Route path="/auth/*" element={<LazyAuth onSignIn={() => setIsSignedIn(true)} />} />
               <Route path="/*" element={<LazyMarketing />} />
             </Routes>
           </Suspense>
